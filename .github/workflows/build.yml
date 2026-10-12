@@ -43,9 +43,16 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: 安装锁定依赖（运行时 + 构建期）
+      - name: 创建独立构建环境（.build\venv）并安装锁定依赖
+        # build_portable.py 要求使用 .build\venv 内的解释器（与本地构建保持一致）；
+        # 公开检出中该目录不存在（由 .gitignore 排除），因此必须在这里创建，并把它的
+        # Scripts 目录前置到 PATH：后续所有 `python ...` 步骤即自动使用该隔离环境，
+        # 无需改动 build_portable.py 的构建契约。
+        shell: pwsh
         run: |
-          python -m pip install --disable-pip-version-check -r requirements.lock.txt
+          python -m venv .build\venv
+          & ".build\venv\Scripts\python.exe" -m pip install --disable-pip-version-check -r requirements.lock.txt
+          Add-Content -LiteralPath $env:GITHUB_PATH -Value (Resolve-Path ".build\venv\Scripts").Path
 
       - name: 运行全部离线单元测试
         run: python -m unittest discover -s tests -t .

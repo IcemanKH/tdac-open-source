@@ -9,6 +9,17 @@ import warnings
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def _temp_root() -> Path:
+    """测试临时目录根：优先项目内 ``.build``。
+
+    公开仓库检出中**不存在** ``.build``（由 .gitignore 排除），因此这里必须先创建，
+    不能假设它已存在。
+    """
+    base = ROOT / ".build"
+    base.mkdir(parents=True, exist_ok=True)
+    return base
+
+
 class LaunchAndDocsTests(unittest.TestCase):
     def test_one_click_bat_is_self_locating_and_runs_main_program(self):
         path = ROOT / "一键启动TDAC.bat"
@@ -21,7 +32,10 @@ class LaunchAndDocsTests(unittest.TestCase):
 
     def test_project_status_document_covers_flow_outputs_and_boundaries(self):
         path = ROOT / "项目全貌与当前状态.md"
-        self.assertTrue(path.exists())
+        if not path.exists():
+            # 该文档属内部资料（记录内部实施细节），由 .gitignore 排除、不随公开仓库发布；
+            # 公开检出中不存在，此处跳过；在开发工作副本中仍会完整校验其章节。
+            self.skipTest("内部资料文档不随公开仓库发布，跳过（仅在工作副本中校验）")
         text = path.read_text(encoding="utf-8")
         for phrase in (
             "项目目标与边界",
@@ -96,7 +110,7 @@ class LaunchAndDocsTests(unittest.TestCase):
         old = os.environ.get("TDAC_BUILD_SOURCE_SHA")
         try:
             os.environ["TDAC_BUILD_SOURCE_SHA"] = "a" * 40
-            with tempfile.TemporaryDirectory(dir=ROOT / ".build") as temp:
+            with tempfile.TemporaryDirectory(dir=_temp_root()) as temp:
                 exe = Path(temp) / "probe.exe"
                 exe.write_bytes(b"probe")
                 info = module._build_info("0.1.0", temp, str(exe))
@@ -112,7 +126,7 @@ class LaunchAndDocsTests(unittest.TestCase):
         spec = importlib.util.spec_from_file_location("tdac_build_portable_no_leak", ROOT / "build_portable.py")
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
-        with tempfile.TemporaryDirectory(dir=ROOT / ".build") as temp:
+        with tempfile.TemporaryDirectory(dir=_temp_root()) as temp:
             exe = Path(temp) / "probe.exe"
             exe.write_bytes(b"probe")
             with warnings.catch_warnings(record=True) as caught:
@@ -125,7 +139,7 @@ class LaunchAndDocsTests(unittest.TestCase):
         spec = importlib.util.spec_from_file_location("tdac_build_portable_sums", ROOT / "build_portable.py")
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
-        with tempfile.TemporaryDirectory(dir=ROOT / ".build") as temp:
+        with tempfile.TemporaryDirectory(dir=_temp_root()) as temp:
             root = Path(temp)
             (root / "TDAC填写助手").mkdir()
             (root / "TDAC填写助手" / "TDAC填写助手.exe").write_bytes(b"new-build")

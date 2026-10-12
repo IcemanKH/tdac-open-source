@@ -18,6 +18,17 @@ from unittest import mock
 
 
 ROOT = Path(__file__).resolve().parents[1]
+_BUILD = ROOT / ".build"
+
+
+def _temp_root() -> Path:
+    """测试临时目录根：优先项目内 ``.build``。
+
+    公开仓库检出中**不存在** ``.build``（由 .gitignore 排除），因此这里必须先创建，
+    不能假设它已存在。
+    """
+    _BUILD.mkdir(parents=True, exist_ok=True)
+    return _BUILD
 
 
 def _load(rel: str, name: str):
@@ -65,7 +76,7 @@ class ReleaseZipOrderingTests(unittest.TestCase):
         m = self.zipmod
         version = m.app_version()
         zip_name = m.zip_basename(version)
-        with tempfile.TemporaryDirectory(dir=ROOT / ".build") as temp:
+        with tempfile.TemporaryDirectory(dir=_temp_root()) as temp:
             temp = Path(temp)
             dist, out = temp / "dist", temp / "out"
             _make_dist(dist, version)
@@ -110,7 +121,7 @@ class ReleaseZipOrderingTests(unittest.TestCase):
         m = self.zipmod
         version = m.app_version()
         zip_name = m.zip_basename(version)
-        with tempfile.TemporaryDirectory(dir=ROOT / ".build") as temp:
+        with tempfile.TemporaryDirectory(dir=_temp_root()) as temp:
             temp = Path(temp)
             dist, out = temp / "dist", temp / "out"
             _make_dist(dist, version)
@@ -138,7 +149,7 @@ class ReleaseZipOrderingTests(unittest.TestCase):
         m = self.zipmod
         version = m.app_version()
         zip_name = m.zip_basename(version)
-        with tempfile.TemporaryDirectory(dir=ROOT / ".build") as temp:
+        with tempfile.TemporaryDirectory(dir=_temp_root()) as temp:
             temp = Path(temp)
             dist, out = temp / "dist", temp / "out"
             _make_dist(dist, version)
@@ -188,7 +199,7 @@ class ReleaseZipOrderingTests(unittest.TestCase):
         m = self.zipmod
         version = m.app_version()
         zip_name = m.zip_basename(version)
-        with tempfile.TemporaryDirectory(dir=ROOT / ".build") as temp:
+        with tempfile.TemporaryDirectory(dir=_temp_root()) as temp:
             temp = Path(temp)
             dist, out = temp / "dist", temp / "out"
             _make_dist(dist, version)
