@@ -133,4 +133,9 @@ jobs:
             .build/dist/SHA256SUMS.txt
             .build/dist/BUILD_INFO.json
             release/
+          # upload-artifact 默认**跳过**以 . 开头的文件/目录，会把公开源码集合中的
+          # .gitattributes、.gitignore、.github/ 静默丢掉，导致 artifact 里的 release/
+          # 不再是"公开源码集合"的完整快照（ZIP 由 .build/dist 的 onedir 打包，不受影响）。
+          # 这里显式包含隐藏文件，保证归档可作为发布证据逐项核对。
+          include-hidden-files: true
           if-no-files-found: error
