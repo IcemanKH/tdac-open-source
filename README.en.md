@@ -2,7 +2,8 @@
 
 [简体中文](README.md) | **English**
 
-> An **unofficial, free, open-source** helper for the Thailand Digital Arrival Card (TDAC).
+> An **unofficial, free, open-source** helper for the Thailand Digital Arrival Card (TDAC),
+> currently in **Beta**.
 > This tool is **not affiliated** with the Thai government or immigration authorities.
 > Official entry point: <https://tdac.immigration.go.th/arrival-card/>
 
@@ -10,12 +11,16 @@
 
 ## What is this
 
-On **your own computer**, using the Chrome or Edge browser you **already have installed**,
-it **pre-fills** the TDAC arrival card form automatically, then stops at the preview page
-for you to review every field.
+On **your own computer**, using the Chrome or Edge browser you **already have installed**, it
+**attempts to pre-fill** the TDAC arrival card form automatically, then stops at the preview
+page for you to review every field.
 
 It does **not** submit for you. Reading the terms, ticking the consent box, clicking
 **Submit**, and keeping the receipt — **those steps are always yours**.
+
+> **Beta note:** so far the auto pre-fill has been verified **offline only** — the **end-to-end
+> flow on the real TDAC website has not been accepted yet**, so this is **not** a "verified
+> stable" capability. Use it expecting that it may fail, and fall back to manual filing if it does.
 
 > ### ⚠️ Pre-filled ≠ submitted
 >
