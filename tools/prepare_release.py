@@ -47,12 +47,40 @@ WHITELIST_FILES: Tuple[str, ...] = (
     "set_secrets.py", "build_portable.py",
     "requirements.txt", "requirements-build.txt", "requirements.lock.txt",
     # 许可证 / 说明 / 安全声明
-    "LICENSE", "README.md", "SECURITY.md", "THIRD_PARTY_LICENSES.md", "使用说明.md",
+    "LICENSE", "README.md", "README.en.md", "SECURITY.md", "THIRD_PARTY_LICENSES.md", "使用说明.md",
     # 启动脚本（源码运行方式，公开说明里已引用）
     "一键启动TDAC.bat", "启动泰国入境卡填写.cmd", ".gitignore", ".gitattributes",
     # 团队模板（合成，不含真实资料）
     "config/group.example.json",
 )
+
+# --- 随公开仓库发布的**已脱敏**界面截图 ------------------------------------- #
+# 逐张显式列出（而非放宽通用规则）：全部使用纯合成测试资料、敏感字段在界面上
+# 默认打码，且已逐张人工核验不含真实个人资料、本机用户名、内部路径或调试窗口。
+# 新增截图必须先完成同样的核验，再显式加入此处。
+PUBLIC_IMAGE_FILES: Tuple[str, ...] = (
+    "docs/images/01_main_profile.png",
+    "docs/images/02_profile_draft_saved.png",
+    "docs/images/03_prefill_confirm_dialog.png",
+)
+
+# 上述截图所在的**目录链**（"docs"、"docs/images"）。通用规则把 "docs" 与 "*.png"
+# 一律视为内部资料 / 截图而排除；这里只对这条显式链放行，使复制、扫描与
+# --check 的目录遍历行为一致，避免出现“已复制但被校验器忽略”的假阴性。
+PUBLIC_IMAGE_DIRS: Tuple[str, ...] = tuple(sorted({
+    "/".join(rel.split("/")[:i]) for rel in PUBLIC_IMAGE_FILES
+    for i in range(1, len(rel.split("/")))
+}))
+
+
+def _prune_walk_dirs(dns: List[str], rel_dir: str) -> None:
+    """os.walk 的目录剪枝：跳过内部目录，但放行公开截图所在的显式目录链。"""
+    keep: List[str] = []
+    for d in dns:
+        rel = f"{rel_dir}/{d}" if rel_dir else d
+        if d not in FORBIDDEN_DIR_NAMES or rel in PUBLIC_IMAGE_DIRS:
+            keep.append(d)
+    dns[:] = keep
 
 # --- 允许进入发行物的**目录**（递归复制，仍受排除规则约束） ----------------- #
 WHITELIST_DIRS: Tuple[str, ...] = (
@@ -173,7 +201,12 @@ def release_root(version: str = "") -> str:
 
 
 def _is_forbidden(rel_path: str) -> bool:
-    parts = rel_path.replace("\\", "/").split("/")
+    rel_norm = rel_path.replace("\\", "/")
+    # 已核验的公开界面截图优先放行（显式清单，见 PUBLIC_IMAGE_FILES 注释）；
+    # 其余 docs/ 下的内容与所有其它图片仍按通用规则一律拒绝。
+    if rel_norm in PUBLIC_IMAGE_FILES:
+        return False
+    parts = rel_norm.split("/")
     if any(p in FORBIDDEN_DIR_NAMES for p in parts[:-1]):
         return True
     name = parts[-1]
@@ -185,7 +218,7 @@ def _is_forbidden(rel_path: str) -> bool:
 def collect_whitelist() -> List[str]:
     """返回白名单展开后的相对路径列表（仅包含实际存在的文件）。"""
     out: List[str] = []
-    for rel in WHITELIST_FILES:
+    for rel in (*WHITELIST_FILES, *PUBLIC_IMAGE_FILES):
         if os.path.isfile(os.path.join(ROOT, rel)) and not _is_forbidden(rel):
             out.append(rel.replace("\\", "/"))
     for dirname in WHITELIST_DIRS:
@@ -207,7 +240,10 @@ def scan_forbidden(staging_root: str) -> List[Tuple[str, str]]:
     """对暂存目录做脱敏扫描，返回 ``[(相对路径, 命中说明), ...]``。"""
     hits: List[Tuple[str, str]] = []
     for dp, dns, fns in os.walk(staging_root):
-        dns[:] = [d for d in dns if d not in FORBIDDEN_DIR_NAMES]
+        rel_dir = os.path.relpath(dp, staging_root).replace("\\", "/")
+        if rel_dir == ".":
+            rel_dir = ""
+        _prune_walk_dirs(dns, rel_dir)
         for fn in fns:
             abs_p = os.path.join(dp, fn)
             rel = os.path.relpath(abs_p, staging_root).replace("\\", "/")
@@ -297,9 +333,10 @@ def write_scan_report(dest: str, hits: List[Tuple[str, str]]) -> str:
         f"# 发布暂存目录脱敏扫描报告（版本 {version}）",
         "",
         "本报告由 tools/prepare_release.py 生成。白名单机制：只有明确列出的源码、",
-        "合成测试与夹具、模板、许可证与用户说明、构建文件、公开构建工作流、发布工具",
-        "才会进入本目录；内部文档、个人路径、.build、浏览器配置、用户资料、密文、",
-        "日志、PDF、截图一律不进入。",
+        "合成测试与夹具、模板、许可证与用户说明、构建文件、公开构建工作流、发布工具、",
+        "以及已核验脱敏的界面截图（docs/images/，纯合成资料）才会进入本目录；",
+        "内部文档、个人路径、.build、浏览器配置、用户资料、密文、",
+        "日志、PDF、以及其它任何位置的截图一律不进入。",
         "",
         f"扫描结果：{'PASS' if not hits else 'FAIL'}（命中 {len(hits)} 处）",
         "",
@@ -312,7 +349,9 @@ def write_scan_report(dest: str, hits: List[Tuple[str, str]]) -> str:
     else:
         lines.append("未发现私有绝对路径、本机用户目录、真实邮箱 / 手机号 / 护照号 / 身份证号。")
     lines.append("")
-    lines.append("说明：扫描只针对文本类文件；二进制文件不进入本目录（见排除规则）。")
+    lines.append("说明：扫描只针对文本类文件；二进制文件不参与文本扫描。随包发布的界面截图")
+    lines.append("仅限 PUBLIC_IMAGE_FILES 中显式列出、已逐张核验脱敏的合成资料截图；")
+    lines.append("其余任何位置的图片一律不进入本目录（见排除规则）。")
     path = os.path.join(dest, "RELEASE_SCAN_REPORT.md")
     with open(path, "w", encoding="utf-8", newline="\n") as fh:
         fh.write("\n".join(lines) + "\n")
@@ -324,7 +363,10 @@ def check_only(target: str) -> int:
     hits = scan_forbidden(target)
     present = set()
     for dp, dns, fns in os.walk(target):
-        dns[:] = [d for d in dns if d not in FORBIDDEN_DIR_NAMES]
+        rel_dir = os.path.relpath(dp, target).replace("\\", "/")
+        if rel_dir == ".":
+            rel_dir = ""
+        _prune_walk_dirs(dns, rel_dir)
         for fn in fns:
             rel = os.path.relpath(os.path.join(dp, fn), target).replace("\\", "/")
             if rel in ("MANIFEST.sha256", "RELEASE_SCAN_REPORT.md"):
