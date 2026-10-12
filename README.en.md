@@ -191,7 +191,7 @@ python tdac_fill.py --pdf-path PATH  # Where to save the PDF
 python tdac_fill.py --session-info   # Read-only session & debug-port info, leftover detection
 python tdac_fill.py --export-diagnostic   # Export the redacted diagnostic bundle
 python tdac_fill.py --check-update   # Check the configurable update source (only after you ask)
-python tdac_fill.py --close-browser  # Close the browser afterwards
+python tdac_fill.py --close-browser  # Close the browser instance started by this program (your normal Chrome is untouched)
 python set_secrets.py                # Enter passport / phone number (encrypted, no echo)
 python tdac_fill.py --delete-data    # Delete user data managed by this program
 ```

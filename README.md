@@ -155,7 +155,7 @@ python tdac_fill.py --pdf-path PATH  # 指定 PDF 保存位置
 python tdac_fill.py --session-info   # 只读查看会话与调试端口说明、残留检测
 python tdac_fill.py --export-diagnostic   # 导出脱敏诊断包（白名单，可供排查）
 python tdac_fill.py --check-update   # 经你同意后检查可配置的版本来源
-python tdac_fill.py --close-browser  # 结束后关闭浏览器
+python tdac_fill.py --close-browser  # 结束后关闭本程序启动的浏览器实例（不影响你日常用的 Chrome）
 python set_secrets.py                # 录入护照号 / 手机号（加密保存，不回显）
 python tdac_fill.py --delete-data    # 删除本程序管理的用户数据
 ```
