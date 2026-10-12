@@ -1,0 +1,13 @@
+# 构建期依赖（仅用于生成便携版，**不随发行包分发**、不是运行时依赖）
+#
+# Python 版本（G1 最终修复 / P1-05）：与 requirements.txt、build_portable.py、
+#   .github/workflows/build.yml 统一要求 **CPython 3.12（Windows x64，自带 tkinter）**。
+#
+# 用法：
+#   python -m venv .build\venv
+#   .build\venv\Scripts\python.exe -m pip install -r requirements.txt -r requirements-build.txt
+#   .build\venv\Scripts\python.exe build_portable.py
+#
+# 说明：构建机必须使用**自带 tkinter** 的 CPython（例如官方 Windows 版或 uv 管理的
+#       cpython-3.12-*-windows-x86_64-none）。PyInstaller 会把 tkinter 一并打进便携包。
+pyinstaller==6.22.3

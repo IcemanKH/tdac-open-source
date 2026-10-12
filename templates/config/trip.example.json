@@ -1,0 +1,22 @@
+{
+  "_说明": "本次行程与住宿模板。实际资料在首次运行后被复制到用户数据目录：%LOCALAPPDATA%\\TDAC\\config\\trip.json。不要在此模板中填写真实行程。",
+  "_重要": "日期格式固定为 yyyy/mm/dd。交通方式固定使用 AIR / LAND / SEA。",
+  "_字段说明": "以下均为示例占位值，请按实际行程替换。",
+  "arrivalDate": "2026/01/01",
+  "departureDate": "2026/01/08",
+  "countryOfBoarding": "CHINA",
+  "purposeOfTravel": "HOLIDAY",
+  "arrivalMode": "AIR",
+  "arrivalFlightType": "COMMERCIAL FLIGHT",
+  "arrivalFlightNo": "MU0000",
+  "departureMode": "AIR",
+  "departureFlightType": "COMMERCIAL FLIGHT",
+  "departureFlightNo": "MU0001",
+  "accommodationType": "HOTEL",
+  "accommodationProvince": "EXAMPLE PROVINCE",
+  "accommodationDistrict": "EXAMPLE DISTRICT",
+  "accommodationSubdistrict": "EXAMPLE SUBDISTRICT",
+  "accommodationPostalCode": "00000",
+  "accommodationAddress": "HOTEL ADDRESS (示例)",
+  "hotelName": "EXAMPLE HOTEL"
+}

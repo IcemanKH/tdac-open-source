@@ -1,0 +1,20 @@
+# TDAC 依赖清单（版本与审计环境一致，用于锁定与复现）
+#
+# Python 版本（G1 最终修复 / P1-05，消除 3.12 与 3.13 配置不一致）
+#   本项目在 **CPython 3.12（Windows x64，自带 tkinter）** 上开发、测试与构建；
+#   requirements-build.txt、build_portable.py 与公开构建工作流
+#   （.github/workflows/build.yml）均要求同一版本。
+#   3.13 目前仅“尽力兼容”（可以运行测试），**不作为发行构建基准**。
+#
+# 运行时依赖（Windows 11 x64）
+playwright==1.63.0
+greenlet==3.5.6
+pyee==13.0.1
+
+# 说明：
+# - 本项目自带 unittest 测试，不需要 pytest 等第三方测试框架。
+# - 图形界面使用标准库 tkinter（无需 pip 安装，但运行环境需自带 tkinter）。
+# - 浏览器不随包分发，使用用户已安装的 Chrome/Edge。
+# - 便携版打包所需的 PyInstaller 属**构建期**依赖，见 requirements-build.txt。
+# - 完整依赖闭包（含传递依赖实测版本）见 requirements.lock.txt。
+# - 复现安装：python -m pip install -r requirements.txt

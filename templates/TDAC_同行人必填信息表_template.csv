@@ -1,0 +1,34 @@
+分区,字段键,字段,是否必填,填写方式,填写示例,说明
+个人信息,familyName,英文姓,是,,按护照英文姓名,必须与护照一致
+个人信息,firstName,英文名,是,,按护照英文姓名,必须与护照一致
+个人信息,middleName,中间名,否,,没有则留空,护照有中间名才填写
+个人信息,passportNo,护照号,是,,按护照填写,请仔细核对 0/O、1/I 等字符
+个人信息,nationality,国籍,是,CHINESE,CHINESE,按护照国籍填写
+个人信息,dateOfBirth,出生日期,是,,YYYY/MM/DD,按护照填写
+个人信息,occupation,职业,是,,EMPLOYEE / STUDENT,使用官网可识别的英文选项
+个人信息,gender,性别,是,,MALE / FEMALE,按实际情况填写
+个人信息,visaNo,签证号,否,免签则留空,免签则留空,有签证才填写
+个人信息,countryOfResidence,居住国家,是,CHINA,CHINA,按实际居住国家填写
+个人信息,cityOfResidence,居住城市,是,,TESTCITY,按实际居住城市填写
+个人信息,phoneCode,电话区号,是,86,86,只填数字，不加 +
+个人信息,phoneNo,手机号,是,,手机号,填写可接收联系的号码
+行程,arrivalDate,入境日期,是,YYYY/MM/DD,YYYY/MM/DD,按机票填写
+行程,countryOfBoarding,出发/登机国家,是,CHINA,CHINA,最后登机的国家/地区
+行程,purposeOfTravel,旅行目的,是,HOLIDAY,HOLIDAY,按官网选项填写
+行程,arrivalMode,入境交通方式,是,AIR,AIR,AIR / LAND / SEA
+行程,arrivalFlightType,入境交通类型,是,COMMERCIAL FLIGHT,COMMERCIAL FLIGHT,按实际交通类型填写
+行程,arrivalFlightNo,入境航班/车船号,是,,按票面填写,按机票/车票/船票填写
+行程,departureDate,离境日期,是,YYYY/MM/DD,YYYY/MM/DD,按返程票填写
+行程,departureMode,离境交通方式,是,AIR,AIR,AIR / LAND / SEA
+行程,departureFlightType,离境交通类型,是,COMMERCIAL FLIGHT,COMMERCIAL FLIGHT,按实际交通类型填写
+行程,departureFlightNo,离境航班/车船号,是,,按票面填写,按机票/车票/船票填写
+住宿,accommodationType,住宿类型,是,HOTEL,HOTEL,按实际住宿类型填写
+住宿,accommodationProvince,府/省,是,EXAMPLE PROVINCE,EXAMPLE PROVINCE,按住宿地点选择
+住宿,accommodationDistrict,区/县,是,EXAMPLE DISTRICT,EXAMPLE DISTRICT,按住宿地点选择
+住宿,accommodationSubdistrict,分区,是,EXAMPLE SUBDISTRICT,EXAMPLE SUBDISTRICT,按住宿地点选择
+住宿,accommodationPostalCode,邮编,是,00000,邮编,按住宿地址填写
+住宿,accommodationAddress,详细地址,是,"HOTEL ADDRESS (示例)",酒店完整地址,建议与订单/酒店确认单一致
+健康声明,last14DaysCountries,过去14天停留国家/地区,是,CHINA,CHINA,按实际行程填写，可多个
+健康声明,yellowFeverVaccination,黄热病疫苗/风险行程,按页面显示,No,NO / YES,只按实际情况回答
+健康声明,symptoms,症状申报,按页面显示,No,NO / YES,只按实际情况回答
+健康声明,termsAcceptedByUser,条款确认,最终提交前,本人手动,阅读后勾选,脚本不会勾选或提交

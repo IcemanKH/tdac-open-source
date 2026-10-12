@@ -1,0 +1,31 @@
+# TDAC 依赖锁定清单（G1 最终修复 / P1-05）
+#
+# 本文件由构建环境（.build\venv）的 `pip freeze` 直接导出，用于锁定**构建期**
+# 的完整依赖闭包，供独立审计（Codex）核对传递依赖与许可证。
+#
+#   ::  # 复现（Windows x64，CPython 3.12，需自带 tkinter）
+#       python -m venv .build\venv
+#       .build\venv\Scripts\python.exe -m pip install -r requirements.txt -r requirements-build.txt
+#       .build\venv\Scripts\python.exe -m pip freeze        # 应与本文件一致
+#
+# 说明与边界
+#   * 运行时真正需要的是 playwright（及其依赖 greenlet / pyee）；其余为构建期依赖。
+#   * 未提供 sha256 哈希：生成哈希需要联网下载 wheel（本轮授权禁止联网取包），
+#     因此**不虚构**哈希值。若需 hash 锁定，请在联网环境执行：
+#       pip download -r requirements.txt -r requirements-build.txt -d wheels\
+#       pip hash wheels\*.whl
+#     并把结果附在本文件末尾，由 Codex 核对。
+#   * 许可证清单与传递依赖说明见 THIRD_PARTY_LICENSES.md。
+#
+# --- 构建环境实际版本（pip freeze 输出，按名称排序）---
+altgraph==0.17.5
+greenlet==3.5.6
+packaging==26.3
+pefile==2024.8.26
+playwright==1.63.0
+pyee==13.0.1
+pyinstaller==6.22.3
+pyinstaller-hooks-contrib==2026.8
+pywin32-ctypes==0.2.3
+setuptools==84.0.0
+typing_extensions==4.16.0

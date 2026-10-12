@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<!--
+  tdac_mock_form.html —— 最小本地 HTML 模拟页（G1 最终修复 / P2）
+
+  用途
+    只用于**离线**验证 `tdac_fill.BIND_JS` 的字段绑定契约：页面结构与官网
+    表单保持一致的关键钩子（`mat-form-field` / `formcontrolname` /
+    `mat-select` / `mat-radio-group` / 自动完成触发框 / 预览页邮箱框），
+    因此不需要访问泰国官网就能检查“绑定用到的控件名是否都存在”。
+
+  边界
+    * 纯静态、零依赖、零网络：不含任何脚本标签、外链或网络请求；
+    * 不含任何真实个人资料，全部为占位文本；
+    * 不模拟提交按钮的副作用，只有一个不可用的占位 Preview 按钮；
+    * 不是官网的复制品，仅覆盖绑定契约所需的最小结构。
+
+  打开方式：直接用浏览器打开本文件（file:// 即可），无需本地服务器。
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>TDAC 本地模拟页（离线，仅用于字段绑定自检）</title>
+  <style>
+    body { font-family: "Microsoft YaHei UI", sans-serif; margin: 20px; }
+    mat-form-field, .ff { display: block; margin: 6px 0; }
+    fieldset { margin: 10px 0; }
+  </style>
+</head>
+<body>
+  <h1>TDAC 本地模拟页</h1>
+  <p>本页仅用于离线自检表单字段绑定，<strong>不会</strong>联网，也不含任何真实资料。</p>
+
+  <fieldset>
+    <legend>第 1 步：个人信息</legend>
+
+    <!-- 有稳定 formcontrolname 的文本控件（与 BIND_JS 的 byFc 对应） -->
+    <mat-form-field class="ff"><input formcontrolname="familyName" placeholder="姓"></mat-form-field>
+    <mat-form-field class="ff"><input formcontrolname="firstName" placeholder="名"></mat-form-field>
+    <mat-form-field class="ff"><input formcontrolname="middleName" placeholder="中间名"></mat-form-field>
+    <mat-form-field class="ff"><input formcontrolname="passportNo" placeholder="护照号"></mat-form-field>
+
+    <!-- 自动完成框：passportNo 之后的第 1 个（国籍） -->
+    <mat-form-field class="ff">
+      <input class="mat-mdc-autocomplete-trigger" placeholder="国籍">
+      <input type="hidden" formcontrolname="key" value="">
+    </mat-form-field>
+    <!-- passportNo 之后的第 2~4 个（出生年 / 月 / 日） -->
+    <mat-form-field class="ff">
+      <input class="mat-mdc-autocomplete-trigger" placeholder="出生-年">
+      <input type="hidden" formcontrolname="key" value="">
+    </mat-form-field>
+    <mat-form-field class="ff">
+      <input class="mat-mdc-autocomplete-trigger" placeholder="出生-月">
+      <input type="hidden" formcontrolname="key" value="">
+    </mat-form-field>
+    <mat-form-field class="ff">
+      <input class="mat-mdc-autocomplete-trigger" placeholder="出生-日">
+      <input type="hidden" formcontrolname="key" value="">
+    </mat-form-field>
+
+    <mat-form-field class="ff"><input formcontrolname="occupation" placeholder="职业"></mat-form-field>
+    <mat-form-field class="ff"><input formcontrolname="visaNo" placeholder="签证号（可空）"></mat-form-field>
+
+    <!-- visaNo 之后的两个自动完成框：居住国家 / 居住城市 -->
+    <mat-form-field class="ff">
+      <input class="mat-mdc-autocomplete-trigger" placeholder="居住国家/地区">
+      <input type="hidden" formcontrolname="key" value="">
+    </mat-form-field>
+    <mat-form-field class="ff">
+      <input class="mat-mdc-autocomplete-trigger" placeholder="居住城市">
+      <input type="hidden" formcontrolname="key" value="">
+    </mat-form-field>
+
+    <mat-form-field class="ff"><input formcontrolname="phoneCode" placeholder="电话区号"></mat-form-field>
+    <mat-form-field class="ff"><input formcontrolname="phoneNo" placeholder="手机号"></mat-form-field>
+
+    <mat-radio-group formcontrolname="gender" aria-label="性别">
+      <mat-radio-button value="MALE"><input type="radio" name="gender">男</mat-radio-button>
+      <mat-radio-button value="FEMALE"><input type="radio" name="gender">女</mat-radio-button>
+    </mat-radio-group>
+  </fieldset>
+
+  <fieldset>
+    <legend>第 2 步：行程与住宿</legend>
+
+    <mat-form-field class="ff"><mat-select formcontrolname="traPurposeId" placeholder="旅行目的"></mat-select></mat-form-field>
+    <mat-form-field class="ff"><input formcontrolname="arrDate" placeholder="入境日期"></mat-form-field>
+
+    <!-- arrDate 之后的第 1 个自动完成框：出发/登机国家地区 -->
+    <mat-form-field class="ff">
+      <input class="mat-mdc-autocomplete-trigger" placeholder="出发/登机国家地区">
+      <input type="hidden" formcontrolname="key" value="">
+    </mat-form-field>
+
+    <mat-form-field class="ff"><input formcontrolname="flightNo" placeholder="入境航班/车船号"></mat-form-field>
+
+    <mat-radio-group formcontrolname="traModeId" aria-label="入境交通方式">
+      <mat-radio-button value="AIR"><input type="radio" name="traModeId">空路</mat-radio-button>
+    </mat-radio-group>
+    <mat-form-field class="ff"><mat-select formcontrolname="tranModeId" placeholder="入境交通类型"></mat-select></mat-form-field>
+
+    <mat-form-field class="ff"><input formcontrolname="deptDate" placeholder="离境日期"></mat-form-field>
+    <mat-form-field class="ff"><input formcontrolname="deptFlightNo" placeholder="离境航班/车船号"></mat-form-field>
+
+    <mat-radio-group formcontrolname="deptTraModeId" aria-label="离境交通方式">
+      <mat-radio-button value="AIR"><input type="radio" name="deptTraModeId">空路</mat-radio-button>
+    </mat-radio-group>
+    <mat-form-field class="ff"><mat-select formcontrolname="deptTranModeId" placeholder="离境交通类型"></mat-select></mat-form-field>
+
+    <mat-form-field class="ff"><mat-select formcontrolname="accTypeId" placeholder="住宿类型"></mat-select></mat-form-field>
+
+    <!-- accTypeId 之后的三个自动完成框：府 / 区 / 分区 -->
+    <mat-form-field class="ff">
+      <input class="mat-mdc-autocomplete-trigger" placeholder="府/省">
+      <input type="hidden" formcontrolname="key" value="">
+    </mat-form-field>
+    <mat-form-field class="ff">
+      <input class="mat-mdc-autocomplete-trigger" placeholder="区/县">
+      <input type="hidden" formcontrolname="key" value="">
+    </mat-form-field>
+    <mat-form-field class="ff">
+      <input class="mat-mdc-autocomplete-trigger" placeholder="分区/街道">
+      <input type="hidden" formcontrolname="key" value="">
+    </mat-form-field>
+
+    <mat-form-field class="ff"><input formcontrolname="accPostCode" placeholder="邮编"></mat-form-field>
+    <mat-form-field class="ff"><input formcontrolname="accAddress" placeholder="详细地址"></mat-form-field>
+  </fieldset>
+
+  <fieldset>
+    <legend>第 3 步：健康声明</legend>
+    <p>过去 14 天停留国家/地区（模拟芯片）：</p>
+    <div class="country-chips">
+      <mat-chip>CHINA</mat-chip>
+    </div>
+
+    <p>黄热病疫苗 / 风险行程：</p>
+    <mat-radio-group formcontrolname="yellowFever" aria-label="黄热病疫苗">
+      <mat-radio-button value="YES"><input type="radio" name="yellowFever">YES</mat-radio-button>
+      <mat-radio-button value="NO"><input type="radio" name="yellowFever">NO</mat-radio-button>
+    </mat-radio-group>
+
+    <p>症状申报：</p>
+    <mat-radio-group formcontrolname="symptoms" aria-label="症状申报">
+      <mat-radio-button value="YES"><input type="radio" name="symptoms">YES</mat-radio-button>
+      <mat-radio-button value="NO"><input type="radio" name="symptoms">NO</mat-radio-button>
+    </mat-radio-group>
+  </fieldset>
+
+  <fieldset>
+    <legend>第 4 步：预览与收件邮箱</legend>
+    <mat-form-field class="ff">
+      <input formcontrolname="email" type="email" placeholder="收件邮箱">
+    </mat-form-field>
+    <button type="button" disabled>Preview（占位，不生效）</button>
+    <p>说明：真实流程中是否提交完全由你本人在官网操作；本模拟页不会提交任何内容。</p>
+  </fieldset>
+</body>
+</html>

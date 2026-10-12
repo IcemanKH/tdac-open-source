@@ -1,0 +1,64 @@
+# === 用户数据与敏感资料（绝不入库） ===
+# 新版把这些放在 %LOCALAPPDATA%\TDAC\ 下；此处规则用于防止误提交。
+config/profile.json
+config/trip.json
+config/dynamic.json
+config/group.json
+config/draft.json
+secrets/
+browser_profile/
+logs/
+output/
+输出/
+
+# === 任何密文 / 回执 / 敏感导出 ===
+*.dat
+*.log
+TDAC_预览_*.pdf
+TDAC_同行人必填信息表_*.csv
+# 例外：随包公开的**空白模板**不是用户导出数据，必须进仓库（否则公开仓库与
+# CI 构建出的便携包都会缺少该模板）。
+!templates/TDAC_同行人必填信息表_template.csv
+*.pem
+*.key
+
+# === 截图与预览（可能含完整个人资料） ===
+*.png
+*.jpg
+*.jpeg
+*.webp
+
+# === Python 环境与构建产物 ===
+.venv/
+venv/
+env/
+.build/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+*.spec
+
+# === 编辑器 / 系统 ===
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# === 本地覆盖与密钥 ===
+*.local.json
+.env
+.env.*
+
+# === 内部设计与实施计划（内部资料，不随公开仓库发布）===
+# 这些文档记录内部实施细节并引用本机绝对路径，属于内部资料，
+# 不应进入公开仓库或发行包（打包脚本亦不会收集 docs/）。
+docs/superpowers/
+
+# === 发布暂存目录与其余内部资料（只存在于工作副本，不随公开仓库发布）===
+# release/ 由 tools/prepare_release.py 依据白名单生成，是中间产物；
+# 正式公开仓库应从该目录内容另建，而不是把工作副本整体推送。
+release/
+验收截图/
+项目全貌与当前状态.md

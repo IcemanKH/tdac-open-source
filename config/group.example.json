@@ -1,0 +1,21 @@
+{
+  "_说明": "团体非敏感资料模板。不得填写护照号或完整手机号；它们只用 set_secrets.py --group 保存到 DPAPI 密文。",
+  "receiverEmail": "your-email@example.com",
+  "travelers": [
+    {
+      "id": "traveler-01",
+      "familyName": "SURNAME",
+      "firstName": "GIVEN",
+      "middleName": "",
+      "nationality": "CHINESE",
+      "dateOfBirth": "1990/01/01",
+      "gender": "MALE",
+      "occupation": "EMPLOYEE",
+      "countryOfResidence": "CHINA",
+      "cityOfResidence": "TESTCITY",
+      "phoneCode": "86",
+      "visaNo": "",
+      "sharePreviousTravel": false
+    }
+  ]
+}

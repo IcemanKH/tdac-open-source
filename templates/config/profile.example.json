@@ -1,0 +1,16 @@
+{
+  "_说明": "长期个人资料模板。本文件仅为示例，实际资料在首次运行后被复制到用户数据目录：%LOCALAPPDATA%\\TDAC\\config\\profile.json。不要在此模板中填写真实资料。",
+  "_字段说明": "passportNo / phoneNo 不放在这里，改用 set_secrets.py 录入并加密保存。",
+  "familyName": "SURNAME",
+  "firstName": "GIVEN",
+  "middleName": "",
+  "nationality": "CHINESE",
+  "dateOfBirth": "1990/01/01",
+  "gender": "MALE",
+  "occupation": "EMPLOYEE",
+  "countryOfResidence": "CHINA",
+  "cityOfResidence": "TESTCITY",
+  "phoneCode": "86",
+  "visaNo": "",
+  "email": "your-email@example.com"
+}

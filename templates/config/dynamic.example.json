@@ -1,0 +1,13 @@
+{
+  "_说明": "当天需你确认的动态信息模板。实际资料在首次运行后被复制到用户数据目录：%LOCALAPPDATA%\\TDAC\\config\\dynamic.json。不要在此模板中填写真实健康答案。",
+  "_last14Days说明": "过去 14 天实际停留的国家/地区列表；确认后把 last14DaysConfirmed 改为 true。",
+  "last14DaysCountries": ["CHINA"],
+  "last14DaysConfirmed": false,
+  "_healthDeclaration说明": "健康声明答案必须由本人按实际情况确认；缺值时程序会停止，绝不猜测或采用默认答案。",
+  "healthDeclarationConfirmed": false,
+  "yellowFeverVaccination": "",
+  "symptoms": "",
+  "_terms说明": "仅供记录；程序不会使用它自动勾选条款。",
+  "termsAcceptedByUser": false,
+  "receiverEmail": "your-email@example.com"
+}
