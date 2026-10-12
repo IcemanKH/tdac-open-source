@@ -161,7 +161,7 @@ def save_secrets(data: Dict[str, Any]) -> str:
 def load_secrets() -> Dict[str, Any]:
     if not os.path.exists(secrets_path()):
         raise FileNotFoundError(
-            f"未找到敏感信息文件：{secrets_path()}\n请先运行：.venv\\Scripts\\python.exe set_secrets.py"
+            f"未找到敏感信息文件：{secrets_path()}\n请先运行：.build\\venv\\Scripts\\python.exe set_secrets.py"
         )
     with open(secrets_path(), "rb") as f:
         return json.loads(unprotect_bytes(f.read()).decode("utf-8"))

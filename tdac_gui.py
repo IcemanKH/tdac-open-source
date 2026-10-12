@@ -549,7 +549,7 @@ class App:
         nb.add(f, text=" 工具 ")
         ttk.Label(f, text="维护与诊断", font=FONT_BOLD).pack(anchor="w")
 
-        box = ttk.LabelFrame(f, text="脱敏诊断包（B4）", padding=12)
+        box = ttk.LabelFrame(f, text="脱敏诊断包", padding=12)
         box.pack(fill="x", pady=10)
         ttk.Label(box, text=("只包含版本、平台、布尔存在性等非敏感信息；不含姓名、护照、手机号、"
                              "邮箱、行程、浏览器凭据、截图或网页源码。导出前会自检，"
@@ -560,7 +560,7 @@ class App:
         ttk.Button(bb, text="预览诊断包", command=self.preview_diagnostic).pack(side="left")
         ttk.Button(bb, text="导出诊断包…", command=self.export_diagnostic).pack(side="left", padx=8)
 
-        vbox = ttk.LabelFrame(f, text="版本检查（B3）", padding=12)
+        vbox = ttk.LabelFrame(f, text="版本检查", padding=12)
         vbox.pack(fill="x", pady=10)
         ttk.Label(vbox, text=("只有在点击下面按钮时才会联网，且只读取版本号与官方下载页；"
                               "不会自动下载或安装。版本来源可在 config/update.json 配置，"
@@ -569,7 +569,7 @@ class App:
         ttk.Button(vbox, text="检查新版本（需联网）", command=self.check_update).pack(
             anchor="w", pady=(8, 0))
 
-        sbox = ttk.LabelFrame(f, text="浏览器会话与调试端口（B7）", padding=12)
+        sbox = ttk.LabelFrame(f, text="浏览器会话与调试端口", padding=12)
         sbox.pack(fill="x", pady=10)
         ttk.Button(sbox, text="查看会话说明与残留检测", command=self.show_session).pack(anchor="w")
 

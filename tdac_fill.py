@@ -791,7 +791,7 @@ def check_window(trip: Dict[str, Any]) -> Tuple[bool, str]:
 # 环境（B6：浏览器检测与缺失引导；不改任何浏览器启动参数）
 # --------------------------------------------------------------------------- #
 def venv_python() -> str:
-    return os.path.join(HERE, ".venv", "Scripts", "python.exe")
+    return os.path.join(HERE, ".build", "venv", "Scripts", "python.exe")
 
 
 def free_port() -> int:
@@ -821,7 +821,7 @@ def preflight_env(rep: Rep) -> Tuple[Optional[str], int]:
         import playwright  # noqa: F401
         rep.ok("Playwright 已安装（Python 包）")
     except ImportError:
-        rep.fail("Playwright 未安装。请运行：.venv\\Scripts\\python.exe -m pip install playwright")
+        rep.fail("Playwright 未安装。请运行：.build\\venv\\Scripts\\python.exe -m pip install playwright")
         browser = None
 
     port = free_port()

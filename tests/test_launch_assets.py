@@ -26,7 +26,7 @@ class LaunchAndDocsTests(unittest.TestCase):
         self.assertTrue(path.exists())
         text = path.read_text(encoding="utf-8-sig")
         self.assertIn('cd /d "%~dp0"', text)
-        self.assertIn('.venv\\Scripts\\python.exe', text)
+        self.assertIn('.build\\venv\\Scripts\\python.exe', text)
         self.assertIn('tdac_fill.py %*', text)
         self.assertIn('PYTHONUTF8=1', text)
 

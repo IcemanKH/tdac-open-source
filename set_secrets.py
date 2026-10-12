@@ -8,7 +8,7 @@ set_secrets.py — 一次性录入护照号码与手机号码
   * 明文不落盘、不进日志、不进代码仓库
 
 用法（在本项目目录下双击运行本文件对应的命令，或在命令行执行）：
-  .venv\\Scripts\\python.exe set_secrets.py
+  .build\\venv\\Scripts\\python.exe set_secrets.py
 """
 
 from __future__ import annotations
@@ -91,7 +91,7 @@ def main() -> int:
     print(f"  护照号码 -> {mask(passport)}")
     print(f"  手机号码 -> {mask(phone)}")
     print("\n可用以下命令自检：")
-    print("  .venv\\Scripts\\python.exe tdac_sec.py")
+    print("  .build\\venv\\Scripts\\python.exe tdac_sec.py")
     return 0
 
 

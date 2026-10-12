@@ -12,9 +12,9 @@ echo   泰国电子入境卡（TDAC）一键启动
 echo ================================================
 echo.
 
-if not exist ".venv\Scripts\python.exe" (
-  echo [错误] 找不到项目虚拟环境：.venv\Scripts\python.exe
-  echo 请先按 使用说明.md 完成首次安装。
+if not exist ".build\venv\Scripts\python.exe" (
+  echo [错误] 找不到项目虚拟环境：.build\venv\Scripts\python.exe
+  echo 请先按 README 的「从源码运行」一节创建虚拟环境（python -m venv .build\venv）。
   echo.
   set "EXIT_CODE=1"
   goto :finish
@@ -29,7 +29,7 @@ if not exist "tdac_fill.py" (
 )
 
 echo [1/2] 检查 Python 主程序...
-".venv\Scripts\python.exe" -m py_compile tdac_fill.py
+".build\venv\Scripts\python.exe" -m py_compile tdac_fill.py
 if errorlevel 1 (
   echo [错误] 主程序语法检查失败，未启动浏览器。
   echo.
@@ -40,7 +40,7 @@ if errorlevel 1 (
 echo [2/2] 启动 TDAC 自动填写流程...
 echo 参数：%*
 echo.
-".venv\Scripts\python.exe" tdac_fill.py %*
+".build\venv\Scripts\python.exe" tdac_fill.py %*
 set "EXIT_CODE=%ERRORLEVEL%"
 
 :finish
